@@ -34,14 +34,14 @@ namespace SageNA.CE.MvcApplicationSignOnDemo.Controllers
 
             if (signOnResult.IsValid)
             {
-                if (signOnResult.OriginalRequestUrl != null && signOnResult.OriginalRequestUrl != string.Empty)
-                {
-                    return Redirect(signOnResult.OriginalRequestUrl);
-                }
-                else
-                {
-                    return RedirectToAction("DemoContent");
-                }
+                //if (signOnResult.OriginalRequestUrl != null && signOnResult.OriginalRequestUrl != string.Empty)
+                //{
+                //    return Redirect(signOnResult.OriginalRequestUrl);
+                //}
+                //else
+                //{
+                    return RedirectToAction("DemoContent2");
+                //}
             }
             else
             {
@@ -52,6 +52,18 @@ namespace SageNA.CE.MvcApplicationSignOnDemo.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         [UMAuthorize]
         public ActionResult DemoContent()
+        {
+            XmlSerializer serializer = new XmlSerializer(Session["AuthInfo"].GetType());
+            StringWriter sw = new StringWriter();
+            serializer.Serialize(sw, Session["AuthInfo"]);
+            var signOnResult = ((UserSignOnResult)Session["AuthInfo"]);
+            ViewData["Message"] = string.Format("Welcome, {0} {1}", signOnResult.User.PersonInfo.FirstName, signOnResult.User.PersonInfo.LastName);
+            ViewData["PersonInfo"] = sw.ToString();
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult DemoContent2()
         {
             XmlSerializer serializer = new XmlSerializer(Session["AuthInfo"].GetType());
             StringWriter sw = new StringWriter();

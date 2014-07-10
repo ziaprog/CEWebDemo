@@ -20,15 +20,18 @@ namespace SageNA.CE.MvcApplicationSignOnDemo
         {
             ServicePointManager.Expect100Continue = true;
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
+
+            // Add user management routes
+            UMWebApiConfig.Register(GlobalConfiguration.Configuration);
+            UMRouteConfig.RegisterRoutes(RouteTable.Routes);
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            // Add user management routes
-            UMWebApiConfig.Register(GlobalConfiguration.Configuration);
-            UMRouteConfig.RegisterRoutes(RouteTable.Routes);
+
             // Add UMBundleConfig.RegisterBundles in future version 
             // Add UMBundleConfig.RegisterGlobalFilters in future version
         }
